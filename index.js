@@ -45,6 +45,25 @@ async function run() {
             res.send(result)
         })
 
+        app.put('/tasksEdit/:id', async (req, res) => {
+
+            const id = req.params.id; //getting id
+            const data = req.body;
+
+            // return
+
+            const query = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    taskDes: data.taskDes,
+                },
+            };
+            const result = await tasksCollection.updateOne(query, updateDoc, options);
+
+            res.send(result)
+        })
+
 
         app.post('/tasks', async (req, res) => {
             const task = req.body;
@@ -62,6 +81,7 @@ async function run() {
 
             res.send(result);
         })
+
 
 
     } finally {
